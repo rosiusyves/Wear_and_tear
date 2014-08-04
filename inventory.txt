@@ -1,0 +1,1 @@
+{'chain': {'Shimano 105': ['82 gr', '35', 0, True]}, 'shifters': {'Shimano 105': ['600 gr', '150', 0, True]}, 'frame': {}, 'tires': {}, 'front derailleur': {}, 'brakes': {}, 'brake pads': {}, 'front chain ring': {}, 'cassette': {}, 'rear derailleur': {}, 'wheels': {'Shimano': ['2000 gr', 200, 500, False], 'Campagnolo': ['1500 gr', 400, 600, True]}}
