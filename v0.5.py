@@ -50,7 +50,6 @@ def menu():
 
 def view_parts(equipped):
     """View parts in your inventory. Display equipped or all parts."""
-    clear_screen()
     for part_type in inventory:
         print part_type
         for part_name in inventory[part_type]:
@@ -59,13 +58,13 @@ def view_parts(equipped):
                 print "\t\t", inventory[part_type][part_name]
 
 
-def choose_part(type_or_name, choice_part_type):
+def choose_part(type_or_name, type_choice):
     """Return value chosen by user."""
     clear_screen()
     if type_or_name == "type":
         temp_list = inventory.keys()
     elif type_or_name == "name":
-        temp_list = inventory[choice_part_type].keys()
+        temp_list = inventory[type_choice].keys()
 
     for index, item in enumerate(temp_list):
         print index, item
@@ -77,49 +76,48 @@ def choose_part(type_or_name, choice_part_type):
         except ValueError:
             choice = raw_input("Please select correct number to make a choice.")
     return temp_list[choice]
+    clear_screen()
 
 
 def add_part():
     """Add a new part to your inventory."""
-    choice_part_type = choose_part("type", 0)
+    type_choice = choose_part("type", 0)
 
-    choice_part_name = raw_input("What is the name of the part?")
+    name_choice = raw_input("What is the name of the part?")
     weight = raw_input("What is the weight of the part?")
     price = raw_input("What is the price of the part?")
 
-    inventory[str(choice_part_type)] = {str(choice_part_name) : [weight,
-                                                                 price,
-                                                                 0,
-                                                                 False]}
+    inventory[str(type_choice)] = {str(name_choice) : [weight,
+                                                       price,
+                                                       0,
+                                                       False]}
 
 
 def remove_part():
     """Remove a part from your inventory."""
-    choice_part_type = choose_part("type", 0)
-    if inventory[choice_part_type] == {}:
-        clear_screen()
+    type_choice = choose_part("type", 0)
+    if inventory[type_choice] == {}:
         print "There are no items of this type."
     else:
-        choice_part_name = choose_part("name", choice_part_type)
+        name_choice = choose_part("name", type_choice)
 
-        del inventory[choice_part_type][choice_part_name]
+        del inventory[type_choice][name_choice]
 
 
 def edit_part():
     """Change properties of a specific part."""
-    choice_part_type = choose_part("type", 0)
-    if inventory[choice_part_type] == {}:
-        clear_screen()
+    type_choice = choose_part("type", 0)
+    if inventory[type_choice] == {}:
         print "There are no items of this type."
     else:
-        choice_part_name = choose_part("name", choice_part_type)
-        clear_screen()
+        name_choice = choose_part("name", type_choice)
+
         print "0 weight"
         print "1 price"
         edit_choice = int(raw_input("What property do you want to edit?"))
         if edit_choice == 0 or edit_choice == 1:
             new_value = raw_input("Please give the new value for the property.")
-            inventory[choice_part_type][choice_part_name][edit_choice] = new_value
+            inventory[type_choice][name_choice][edit_choice] = new_value
         else:
             print "Please select correct number to make a choice."
             edit_part()
@@ -127,24 +125,21 @@ def edit_part():
 
 def equip_part():
     """Equip one part, unequip all other parts of that part type."""
-    choice_part_type = choose_part("type", 0)
-    if inventory[choice_part_type] == {}:
-        clear_screen()
+    type_choice = choose_part("type", 0)
+    if inventory[type_choice] == {}:
         print "There are no items of this type."
     else:
-        choice_part_name = choose_part("name", choice_part_type)
+        name_choice = choose_part("name", type_choice)
 
-        clear_screen()
-        for part_name in inventory[choice_part_type]:
-            inventory[choice_part_type][part_name][3] = False
+        for part_name in inventory[type_choice]:
+            inventory[type_choice][part_name][3] = False
 
-        inventory[choice_part_type][choice_part_name][3] = True
+        inventory[type_choice][name_choice][3] = True
         print "Your part has been equipped."
 
 
 def add_ride():
     """Adds miles to properties of all equipped parts."""
-    clear_screen()
     distance = int(raw_input("How many miles do you want to add?"))
 
     for part_type in inventory:
